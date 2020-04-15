@@ -33,7 +33,7 @@ if (! function_exists('can_be_impersonated')) {
 		$guard = $guard ?? app('impersonate')->getCurrentAuthGuardName();
 
 		return app('auth')->guard($guard)->check()
-		       && app('auth')->guard($guard)->user()->id != $user->id
+		       && $guard == app('impersonate')->getCurrentAuthGuardName() ? app('auth')->guard($guard)->user()->id != $user->id : true
 		       && $user->canBeImpersonated();
 	}
 }
